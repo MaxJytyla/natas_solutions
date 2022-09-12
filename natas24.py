@@ -12,7 +12,7 @@ def writeResponse(enumerate = ''):
         
 
 url = 'http://natas24.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas24','OsRmXFguozKpTZZ5X14zNO43379LZveg')
+lvl_pass = requests.auth.HTTPBasicAuth('natas24','0xzF30T9Av8lgXhW7slhFCIsVKAPyl2r')
 my_cookies = {"PHPSESSID":''} #irrelevant for this one 
 my_params = {"passwd[]":'not sure'}
 
@@ -24,5 +24,5 @@ Another type conversion lesson. 0, 0.0, "0", and NULL auto cast to false.
 And passing an array into strcmp() returns NULL in PHP.
 
 Username: natas25 
-Password: GHF6X7YwACaYYssHVY05cFq83hRktl4c
+Password: O9QD9DZBDq1YpswiTM5oqMDaOtuZtAcx
 '''

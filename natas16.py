@@ -48,9 +48,20 @@ def main():
 
 
 url = 'http://natas16.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas16','WaIHEacj63wnNIBROHeqi3p9t0m5nhmh')
+lvl_pass = requests.auth.HTTPBasicAuth('natas16','TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V')
 alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
 filt_chars = []
 pw_len = 0
 pw = ""
 main()
+
+'''
+Shell injection PHP, folks, we love to see it.
+We love to see him executing arbitary code on the server!
+And folks, we're seeing it more and more.
+
+
+Username: natas17
+Password: XkEuChE0SbnKBvH1RU7ksIb9uuLmI7sd
+
+'''

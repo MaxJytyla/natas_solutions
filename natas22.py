@@ -13,7 +13,7 @@ def writeResponse(enumerate = ''):
         
 
 url = 'http://natas22.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas22','chG9fbe1Tq2eWVMgjYYD1MsfIvN461kJ')
+lvl_pass = requests.auth.HTTPBasicAuth('natas22','91awVM9oDiUGm33JdzM7RVLBS8bz9n0s')
 my_cookies = {"PHPSESSID":'kij2rv5fvgd4v22ekal24idbj7'}
 my_params = {"revelio":"true","admin":"1","debug":"true"}
 
@@ -26,5 +26,5 @@ but the script still executes. And since it's the BROWSER redirecting, it's just
 case of making it not do that.
 
 Username: natas23
-Password: D0vlad33nQF0Hz2EP255TP5wSW9ZsRSE
+Password: 91awVM9oDiUGm33JdzM7RVLBS8bz9n0s
 '''

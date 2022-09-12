@@ -12,7 +12,7 @@ def writeResponse(enumerate = ''):
         
 
 url = 'http://natas23.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas23','D0vlad33nQF0Hz2EP255TP5wSW9ZsRSE')
+lvl_pass = requests.auth.HTTPBasicAuth('natas23','qjA8cOoKFTzJhtV0Fzvt92fgvxVnVRBj')
 my_cookies = {"PHPSESSID":''} #irrelevant for this one 
 my_params = {"passwd":"99iloveyou"}
 
@@ -24,5 +24,5 @@ Another shockingly easy one. Seriously, the fucking password construction ones w
 harder than this. I guess it's supposed to teach you about type conversion in PHP?
 
 Username: natas24 
-Password: OsRmXFguozKpTZZ5X14zNO43379LZveg
+Password: 0xzF30T9Av8lgXhW7slhFCIsVKAPyl2r
 '''

