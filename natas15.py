@@ -52,8 +52,9 @@ lvl_pass = requests.auth.HTTPBasicAuth('natas15','TTkaI7AWG4iDERztBcEyKV7kRXH1EZ
 un_base = 'natas16" AND password LIKE BINARY "'
 alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
 filt_chars = []
-
 pw = ""
+
+
 main()
 
 '''
