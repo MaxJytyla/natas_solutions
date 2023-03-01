@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 
 def make():
     res = requests.get(url=url,auth=lvl_pass, params=my_params, cookies=my_cookies)
@@ -21,6 +22,8 @@ make()
 my_params['username'] = username
 
 res, soup = make()
+print(re.search(r"[a-zA-Z0-9]{32}$", soup.find("div",id="content").text, re.MULTILINE)[0])
+
 writeResponse()
 
 '''

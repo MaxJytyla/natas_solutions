@@ -32,17 +32,16 @@ def main():
     for x in num:
         if x > 0:
             pw_len = x
-            print(pw_len)
+#            print(pw_len)
     with concurrent.futures.ThreadPoolExecutor(max_workers=pw_len) as executor:
         ch = executor.map(filterChars, alphanum)
     for x in ch:
         if x != '-1':
             filt_chars.append(x)
-    print(''.join(filt_chars))
+ #   print(''.join(filt_chars))
     for x in range(pw_len):
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(filt_chars)) as executor:
             ch = executor.map(findpw, filt_chars)
-
 
 
 

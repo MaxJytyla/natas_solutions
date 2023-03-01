@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 
 def make():
     res = requests.get(url=url,auth=lvl_pass, params=my_params, cookies=my_cookies)
@@ -22,7 +23,8 @@ writeResponse()
 url=f'http://{lvl_name}.natas.labs.overthewire.org/img/my_solution.php'
 
 res, soup = make()
-writeResponse(1)
+print(re.search(r"^[a-zA-Z0-9]{32}", soup.text)[0])
+writeResponse()
 
 '''
 This one was INSANE! I feel like a God for solving it, straight up. It's an object injection puzzle, intended to
