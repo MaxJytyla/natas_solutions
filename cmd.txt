@@ -1,2 +1,0 @@
-print(soup.find("div",id="content").contents[1][-33:-1])
-
