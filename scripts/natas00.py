@@ -8,15 +8,15 @@ def make():
 def writeResponse(enumerate = ''):
     with open(f'./response{enumerate}.html', 'w') as browserFile:
         browserFile.write(soup.prettify())
-        
-        
 
-url = 'http://natas0.natas.labs.overthewire.org'  
+
+
+url = 'http://natas0.natas.labs.overthewire.org'
 lvl_pass = requests.auth.HTTPBasicAuth('natas0','natas0')
 
 res, soup = make()
 writeResponse()
-
+print(soup.find("div",id="content").contents[1][-33:-1])
 '''
 PW in raw markup comment
 
