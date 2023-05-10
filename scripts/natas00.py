@@ -1,22 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
 
-def make():
-    res = requests.get(url=url,auth=lvl_pass)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    return (res, soup)
-def writeResponse(enumerate = ''):
-    with open(f'./response{enumerate}.html', 'w') as browserFile:
-        browserFile.write(soup.prettify())
+lvl = '0'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
+soup = BeautifulSoup(requests.get(url=url,auth=lvl_pass).text, 'html.parser')
+pw = soup.find("div",id="content").contents[1][-33:-1]
 
 
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
 
-url = 'http://natas0.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas0','natas0')
-
-res, soup = make()
-writeResponse()
-print(soup.find("div",id="content").contents[1][-33:-1])
 '''
 PW in raw markup comment
 

@@ -1,25 +1,21 @@
 from bs4 import BeautifulSoup
 import requests
 import re
-def make():
-    res = requests.get(url=url,auth=lvl_pass, headers=my_headers)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    return (res, soup)
-def writeResponse(enumerate = ''):
-    with open(f'./response{enumerate}.html', 'w') as browserFile:
-        browserFile.write(soup.prettify())
+
+lvl = '4'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
+
+my_headers = {'Referer': f'http://natas{next_level}.natas.labs.overthewire.org/'}
+soup = BeautifulSoup(requests.get(url=url,auth=lvl_pass, headers=my_headers).text, 'html.parser')
+
+pw=re.search(r"[a-zA-Z0-9]{32}",soup.find("div",id="content").text)[0]
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
 
 
-lvl_name = 'natas4'
-url = f'http://{lvl_name}.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth(f'{lvl_name}','tKOcJIbzM4lTs8hbCmzn5Zr4434fGZQm')
-my_headers = {'Referer': 'http://natas5.natas.labs.overthewire.org/'}
-
-
-res, soup = make()
-writeResponse()
-
-print(re.search(r"[a-zA-Z0-9]{32}",soup.find("div",id="content").text)[0])
 
 '''
 Lesson about HTTP request headers.

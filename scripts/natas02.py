@@ -2,22 +2,18 @@ from bs4 import BeautifulSoup
 import re
 import requests
 
-def make():
-    res = requests.get(url=url,auth=lvl_pass)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    return (res, soup)
-def writeResponse(enumerate = ''):
-    with open(f'./response{enumerate}.html', 'w') as browserFile:
-        browserFile.write(soup.prettify())
+lvl = '2'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+
+url = f'http://natas{lvl}.natas.labs.overthewire.org/files/users.txt'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
+soup = BeautifulSoup(requests.get(url=url,auth=lvl_pass).text, 'html.parser')
+pw = re.search(r"^natas3:.*$", soup.text,re.MULTILINE)[0][-32:]
+
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
 
 
-lvl_name = 'natas2'
-url = f'http://{lvl_name}.natas.labs.overthewire.org/files/users.txt'  #New directory target
-lvl_pass = requests.auth.HTTPBasicAuth(f'{lvl_name}','h4ubbcXrWqsTo7GGnnUMLppXbOogfBZ7')
-
-res, soup = make()
-writeResponse()
-print(re.search(r"^natas3:.*$", soup.text,re.MULTILINE)[0][-32:])
 '''
 Simple directory traversal lesson.
 
